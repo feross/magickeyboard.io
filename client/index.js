@@ -153,7 +153,7 @@ document.body.addEventListener('keydown', function (e) {
   if (key in KEYS_X) {
     var letter = Matter.Bodies.circle(KEYS_X[key], HEIGHT - 30, 30, {
       restitution: RESTITUTION,
-      friction: 0.01,
+      friction: 0.001,
       render: {
         sprite: {
           texture: getImagePath(key)
