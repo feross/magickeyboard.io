@@ -38,8 +38,8 @@ var world = engine.world
 var offset = 1
 World.add(world, [
   // bottom (left)
-  Bodies.rectangle(width / 4, height + 17, width / 2, offset, {
-    angle: -0.05,
+  Bodies.rectangle(width / 4, height + 30, width / 2, offset, {
+    angle: -0.1,
     isStatic: true,
     friction: 0.01,
     render: {
@@ -47,8 +47,8 @@ World.add(world, [
     }
   }),
   // bottom (right)
-  Bodies.rectangle((width / 4) * 3, height + 17, width / 2, offset, {
-    angle: 0.05,
+  Bodies.rectangle((width / 4) * 3, height + 30, width / 2, offset, {
+    angle: 0.1,
     isStatic: true,
     friction: 0.01,
     render: {
@@ -79,7 +79,7 @@ keys.forEach(function (row) {
 
 document.body.addEventListener('keydown', function (e) {
   var key = vkey[e.keyCode]
-  console.log(key)
+
   if (key in keysY) {
     var x = keysY[key] * width
 
@@ -99,7 +99,7 @@ document.body.addEventListener('keydown', function (e) {
 
     var vector = {
       x: (Math.floor((Date.now() / 200) % 10) / 200) - 0.025,
-      y: -0.2
+      y: -0.22
     }
 
     Matter.Body.applyForce(letter, letter.position, vector)
