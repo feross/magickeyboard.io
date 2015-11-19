@@ -30,6 +30,7 @@
   "scripts": {
     "build": "browserify client > static/bundle.js",
     "serve": "ecstatic -p 4000 static",
+    "start": "npm run build && npm run serve",
     "test": "standard",
     "watch-js": "watchify client -o static/bundle.js -dv",
     "watch": "npm run watch-js & npm run serve"
