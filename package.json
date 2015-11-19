@@ -1,0 +1,37 @@
+{
+  "name": "magic-keyboard",
+  "description": "",
+  "version": "0.0.0",
+  "author": {
+    "name": "Feross Aboukhadijeh",
+    "email": "feross@feross.org",
+    "url": "http://feross.org/"
+  },
+  "bugs": {
+    "url": "https://github.com/feross/magic-keyboard/issues"
+  },
+  "dependencies": {
+    "matter-js": "^0.8.0",
+    "vkey": "^1.0.0"
+  },
+  "devDependencies": {
+    "browserify": "^12.0.1",
+    "ecstatic": "^1.3.1",
+    "standard": "^5.0.0",
+    "watchify": "^3.6.1"
+  },
+  "homepage": "https://github.com/feross/magic-keyboard",
+  "license": "MIT",
+  "main": "server",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/feross/magic-keyboard.git"
+  },
+  "scripts": {
+    "build": "browserify client > static/bundle.js",
+    "serve": "ecstatic -p 4000 static",
+    "test": "standard",
+    "watch-js": "watchify client -o static/bundle.js -dv",
+    "watch": "npm run watch-js & npm run serve"
+  }
+}
