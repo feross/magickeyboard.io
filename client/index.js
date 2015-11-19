@@ -3,24 +3,90 @@ var Matter = require('matter-js')
 var preload = require('preload-img')
 var vkey = require('vkey')
 
-// Matter.js module aliases
-var Engine = Matter.Engine
-var World = Matter.World
-var Bodies = Matter.Bodies
+var RESTITUTION = 0.9
+var OFFSET = 1
 
-var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
-var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+var KEYS = [
+  ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', null],
+  [null, 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\'],
+  [null, 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\'', null],
+  [null, null, 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', null, null]
+]
 
-// create a Matter.js engine
-var engine = Engine.create(document.querySelector('.content'), {
+var WIDTH, HEIGHT, KEYS_X
+
+function onResize () {
+  WIDTH = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+  HEIGHT = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+
+  KEYS_X = {}
+  KEYS.forEach(function (row) {
+    row.forEach(function (letter, i) {
+      if (!letter) return // ignore meta keys
+      KEYS_X[letter] = ((i / row.length) + (0.5 / row.length)) * WIDTH
+      preload(getImagePath(letter))
+    })
+  })
+
+  var canvas = document.querySelector('canvas')
+  if (canvas) {
+    canvas.width = WIDTH
+    canvas.height = HEIGHT
+  }
+}
+
+onResize()
+window.addEventListener('resize', onResize)
+
+var engine = Matter.Engine.create(document.querySelector('.content'), {
   render: {
     options: {
-      width: width,
-      height: height,
+      width: WIDTH,
+      height: HEIGHT,
       background: '#222'
     }
   }
 })
+
+// No bounds on the world (for accurate physics)
+engine.world.bounds.min.x = -10000
+engine.world.bounds.min.y = -10000
+engine.world.bounds.max.x = 10000
+engine.world.bounds.max.y = 10000
+
+// Show textures
+engine.render.options.wireframes = false
+
+// if (debug.enabled) {
+//   engine.render.options.showCollisions = true
+//   engine.render.options.showVelocity = true
+//   engine.render.options.showAngleIndicator = true
+// }
+
+// Add static walls surrounding the world
+Matter.World.add(engine.world, [
+  // bottom (left)
+  Matter.Bodies.rectangle(WIDTH / 4, HEIGHT + 30, WIDTH / 2, OFFSET, {
+    angle: -0.1,
+    isStatic: true,
+    friction: 0.01,
+    render: {
+      visible: false
+    }
+  }),
+  // bottom (right)
+  Matter.Bodies.rectangle((WIDTH / 4) * 3, HEIGHT + 30, WIDTH / 2, OFFSET, {
+    angle: 0.1,
+    isStatic: true,
+    friction: 0.01,
+    render: {
+      visible: false
+    }
+  })
+])
+
+// run the engine
+Matter.Engine.run(engine)
 
 var lastPress
 var soundVector
@@ -77,75 +143,16 @@ function coolBeatz (t) {
   function si (x) { return Math.sin(x)}
 }
 
-// No bounds on the world (for accurate physics)
-engine.world.bounds.min.x = -10000
-engine.world.bounds.min.y = -10000
-engine.world.bounds.max.x = 10000
-engine.world.bounds.max.y = 10000
-
-var renderOptions = engine.render.options
-renderOptions.wireframes = false
-// renderOptions.showCollisions = true
-// renderOptions.showVelocity = true
-// renderOptions.showAngleIndicator = true
-
-var world = engine.world
-
-// Add static walls surrounding the world
-var offset = 1
-World.add(world, [
-  // bottom (left)
-  Bodies.rectangle(width / 4, height + 30, width / 2, offset, {
-    angle: -0.1,
-    isStatic: true,
-    friction: 0.01,
-    render: {
-      visible: false
-    }
-  }),
-  // bottom (right)
-  Bodies.rectangle((width / 4) * 3, height + 30, width / 2, offset, {
-    angle: 0.1,
-    isStatic: true,
-    friction: 0.01,
-    render: {
-      visible: false
-    }
-  })
-])
-
-var restitution = 0.9
-
-// run the engine
-Engine.run(engine)
-
-var keys = [
-  ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', null],
-  [null, 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\'],
-  [null, 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\'', null],
-  [null, null, 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', null, null]
-]
-
-var keysX = {}
-keys.forEach(function (row) {
-  row.forEach(function (letter, i) {
-    if (!letter) return
-    keysX[letter] = (i / row.length) + (0.5 / row.length)
-    preload(getImagePath(letter))
-  })
-})
-
 document.body.addEventListener('keydown', function (e) {
   lastPress = Date.now()
   channel.play()
   soundVector = 100 - e.keyCode || 1
+
   var key = vkey[e.keyCode]
 
-  if (key in keysX) {
-    var x = keysX[key] * width
-
-    var letter = Bodies.circle(x, height - 30, 30, {
-      restitution: restitution,
+  if (key in KEYS_X) {
+    var letter = Matter.Bodies.circle(KEYS_X[key], HEIGHT - 30, 30, {
+      restitution: RESTITUTION,
       friction: 0.01,
       render: {
         sprite: {
@@ -160,8 +167,7 @@ document.body.addEventListener('keydown', function (e) {
     }
 
     Matter.Body.applyForce(letter, letter.position, vector)
-
-    World.add(engine.world, [ letter ])
+    Matter.World.add(engine.world, [ letter ])
   }
 
   setTimeout(function () {
