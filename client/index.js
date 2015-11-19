@@ -49,10 +49,10 @@ var engine = Matter.Engine.create(document.querySelector('.content'), {
 })
 
 // No bounds on the world (for accurate physics)
-engine.world.bounds.min.x = -10000
-engine.world.bounds.min.y = -10000
-engine.world.bounds.max.x = 10000
-engine.world.bounds.max.y = 10000
+engine.world.bounds.min.x = -Infinity
+engine.world.bounds.min.y = -Infinity
+engine.world.bounds.max.x = Infinity
+engine.world.bounds.max.y = Infinity
 
 // Show textures
 engine.render.options.wireframes = false
