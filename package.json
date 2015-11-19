@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "matter-js": "^0.8.0",
+    "preload-img": "^1.0.0",
     "vkey": "^1.0.0",
     "webaudio": "^2.0.0"
   },

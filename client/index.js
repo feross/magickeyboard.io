@@ -1,6 +1,7 @@
-var Matter = require('matter-js')
-var vkey = require('vkey')
 var baudio = require('webaudio')
+var Matter = require('matter-js')
+var preload = require('preload-img')
+var vkey = require('vkey')
 
 // Matter.js module aliases
 var Engine = Matter.Engine
@@ -125,11 +126,12 @@ var keys = [
   [null, null, 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', null, null]
 ]
 
-var keysY = {}
+var keysX = {}
 keys.forEach(function (row) {
   row.forEach(function (letter, i) {
     if (!letter) return
-    keysY[letter] = (i / row.length) + (0.5 / row.length)
+    keysX[letter] = (i / row.length) + (0.5 / row.length)
+    preload(getImagePath(letter))
   })
 })
 
@@ -139,19 +141,15 @@ document.body.addEventListener('keydown', function (e) {
   soundVector = 100 - e.keyCode || 1
   var key = vkey[e.keyCode]
 
-  if (key in keysY) {
-    var x = keysY[key] * width
-
-    if (key === '.') key = 'dot'
-    if (key === '/') key = 'slash'
-    if (key === '\\') key = 'backslash'
+  if (key in keysX) {
+    var x = keysX[key] * width
 
     var letter = Bodies.circle(x, height - 30, 30, {
       restitution: restitution,
       friction: 0.01,
       render: {
         sprite: {
-          texture: './img/' + key + '.png'
+          texture: getImagePath(key)
         }
       }
     })
@@ -170,3 +168,10 @@ document.body.addEventListener('keydown', function (e) {
     if (Date.now() - lastPress > 100) channel.stop()
   }, 100)
 }, false)
+
+function getImagePath (key) {
+  if (key === '.') key = 'dot'
+  if (key === '/') key = 'slash'
+  if (key === '\\') key = 'backslash'
+  return './img/' + key + '.png'
+}
