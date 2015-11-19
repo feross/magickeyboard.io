@@ -82,6 +82,11 @@ document.body.addEventListener('keydown', function (e) {
   console.log(key)
   if (key in keysY) {
     var x = keysY[key] * width
+
+    if (key === '.') key = 'dot'
+    if (key === '/') key = 'slash'
+    if (key === '\\') key = 'backslash'
+
     var letter = Bodies.circle(x, height - 30, 30, {
       restitution: restitution,
       friction: 0.01,
