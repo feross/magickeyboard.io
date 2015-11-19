@@ -19,4 +19,4 @@ Pull requests welcome!
 
 ### License
 
-MIT
+MIT. Copyright (c) [Feross Aboukhadijeh](http://feross.org).
