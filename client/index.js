@@ -69,7 +69,7 @@ Matter.World.add(engine.world, [
   Matter.Bodies.rectangle(WIDTH / 4, HEIGHT + 30, WIDTH / 2, OFFSET, {
     angle: -0.1,
     isStatic: true,
-    friction: 0.01,
+    friction: 0.001,
     render: {
       visible: false
     }
@@ -78,7 +78,7 @@ Matter.World.add(engine.world, [
   Matter.Bodies.rectangle((WIDTH / 4) * 3, HEIGHT + 30, WIDTH / 2, OFFSET, {
     angle: 0.1,
     isStatic: true,
-    friction: 0.01,
+    friction: 0.001,
     render: {
       visible: false
     }
