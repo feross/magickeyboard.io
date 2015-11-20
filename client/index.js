@@ -56,6 +56,8 @@ engine.world.bounds.max.y = Infinity
 // Show textures
 engine.render.options.wireframes = false
 
+engine.enableSleeping = true
+
 // if (debug.enabled) {
 //   engine.render.options.showCollisions = true
 //   engine.render.options.showVelocity = true
@@ -78,6 +80,14 @@ Matter.World.add(engine.world, [
     angle: 0.1,
     isStatic: true,
     friction: 0.001,
+    render: {
+      visible: false
+    }
+  }),
+  // platform to catch letters that fall offscreen
+  Matter.Bodies.rectangle(WIDTH / 2, HEIGHT + 100, WIDTH * 4, OFFSET, {
+    isStatic: true,
+    friction: 1, // letters should stop sliding with sleeping=true
     render: {
       visible: false
     }
