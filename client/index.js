@@ -153,10 +153,25 @@ function hideHelp () {
   $help.style.display = 'none'
 }
 
+var touchActive = false
 document.body.addEventListener('touchstart', function (e) {
+  touchActive = true
+  addTouchLetter(e)
+  var interval = window.setInterval(function () {
+    if (touchActive) addTouchLetter(e)
+    else clearInterval(interval)
+  }, 100)
+})
+
+function addTouchLetter (e) {
   var keys = Object.keys(KEYS_X)
   var key = keys[Math.floor(Math.random() * keys.length)]
   var x = e.touches[0].screenX
   var y = e.touches[0].screenY
   addLetter(key, x, y)
+}
+
+document.body.addEventListener('touchend', function (e) {
+  console.log('')
+  touchActive = false
 })
