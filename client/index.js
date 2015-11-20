@@ -98,31 +98,35 @@ Matter.World.add(engine.world, [
 Matter.Engine.run(engine)
 
 document.body.addEventListener('keydown', function (e) {
-  play()
-  hideHelp()
-
   var key = vkey[e.keyCode]
 
   if (key in KEYS_X) {
-    var letter = Matter.Bodies.circle(KEYS_X[key], HEIGHT - 30, 30, {
-      restitution: RESTITUTION,
-      friction: 0.001,
-      render: {
-        sprite: {
-          texture: getImagePath(key)
-        }
-      }
-    })
-
-    var vector = {
-      x: (Math.floor((Date.now() / 200) % 10) / 200) - 0.025,
-      y: -0.22
-    }
-
-    Matter.Body.applyForce(letter, letter.position, vector)
-    Matter.World.add(engine.world, [ letter ])
+    addLetter(key, KEYS_X[key], HEIGHT - 30)
   }
 }, false)
+
+function addLetter (key, x, y) {
+  playTypeSound()
+  hideHelp()
+
+  var body = Matter.Bodies.circle(x, y, 30, {
+    restitution: RESTITUTION,
+    friction: 0.001,
+    render: {
+      sprite: {
+        texture: getImagePath(key)
+      }
+    }
+  })
+
+  var vector = {
+    x: (Math.floor((Date.now() / 200) % 10) / 200) - 0.025,
+    y: -0.23
+  }
+
+  Matter.Body.applyForce(body, body.position, vector)
+  Matter.World.add(engine.world, [ body ])
+}
 
 function getImagePath (key) {
   if (key === '.') key = 'dot'
@@ -131,7 +135,7 @@ function getImagePath (key) {
   return './img/' + key + '.png'
 }
 
-function play () {
+function playTypeSound () {
   var $audio = document.createElement('audio')
   $audio.src = '/type.mp3'
   $audio.addEventListener('ended', function (e) {
@@ -148,3 +152,11 @@ function hideHelp () {
   helpHidden = true
   $help.style.display = 'none'
 }
+
+document.body.addEventListener('touchstart', function (e) {
+  var keys = Object.keys(KEYS_X)
+  var key = keys[Math.floor(Math.random() * keys.length)]
+  var x = e.touches[0].screenX
+  var y = e.touches[0].screenY
+  addLetter(key, x, y)
+})
