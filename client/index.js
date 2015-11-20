@@ -27,10 +27,10 @@ function onResize () {
     })
   })
 
-  var canvas = document.querySelector('canvas')
-  if (canvas) {
-    canvas.width = WIDTH
-    canvas.height = HEIGHT
+  var $canvas = document.querySelector('canvas')
+  if ($canvas) {
+    $canvas.width = WIDTH
+    $canvas.height = HEIGHT
   }
 }
 
@@ -89,6 +89,7 @@ Matter.Engine.run(engine)
 
 document.body.addEventListener('keydown', function (e) {
   play()
+  hideHelp()
 
   var key = vkey[e.keyCode]
 
@@ -121,10 +122,19 @@ function getImagePath (key) {
 }
 
 function play () {
-  var audio = document.createElement('audio')
-  audio.src = '/type.mp3'
-  audio.addEventListener('ended', function (e) {
-    audio.src = ''
+  var $audio = document.createElement('audio')
+  $audio.src = '/type.mp3'
+  $audio.addEventListener('ended', function (e) {
+    $audio.src = ''
   })
-  audio.play()
+  $audio.play()
+}
+
+var helpHidden = false
+var $help = document.querySelector('.help')
+
+function hideHelp () {
+  if (helpHidden) return
+  helpHidden = true
+  $help.style.display = 'none'
 }

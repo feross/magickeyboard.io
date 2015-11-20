@@ -3,3 +3,39 @@ html, body, .content {
   height: 100%;
   width: 100%;
 }
+
+.help {
+  position: fixed;
+  color: #6BFF38;
+  z-index: 1000;
+  text-align: center;
+  bottom: 60px;
+  width: 100%;
+  font-family: monospace;
+  font-size: 30px;
+}
+
+.blink {
+  background-color: #6BFF38;
+  position: relative;
+  display: inline-block;
+  width: 4px;
+  top: 8px;
+  height: 33px;
+  margin-left: 15px;
+  animation: 0.8s blink infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
