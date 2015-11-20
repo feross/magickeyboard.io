@@ -84,14 +84,6 @@ Matter.World.add(engine.world, [
       visible: false
     }
   }),
-  // top
-  Matter.Bodies.rectangle(WIDTH / 2, -100, WIDTH, OFFSET, {
-    isStatic: true,
-    friction: 0,
-    render: {
-      visible: false
-    }
-  }),
   // platform to catch letters that fall offscreen
   Matter.Bodies.rectangle(WIDTH / 2, HEIGHT + 100, WIDTH * 4, OFFSET, {
     isStatic: true,
