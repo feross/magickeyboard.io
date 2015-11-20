@@ -1,4 +1,3 @@
-var baudio = require('webaudio')
 var Matter = require('matter-js')
 var preload = require('preload-img')
 var vkey = require('vkey')
@@ -88,65 +87,8 @@ Matter.World.add(engine.world, [
 // run the engine
 Matter.Engine.run(engine)
 
-var lastPress
-var soundVector
-var channel = baudio(coolBeatz)
-
-// http://studio.substack.net/bossa%2060?time=1442227405013
-function coolBeatz (t) {
-  var bpm = 50
-  t = t % 1 + 2
-  var flbeat=60;
-       snbeat=60;
-       hhbeat=60;
-       rdbeat=60;
-
-  return fl1()+fl2()+rd()+hh()+sn();
-
-  function fl1() {
-    return si(128*Math.PI*(t+1/4))*floor()
-    function floor () { return ((t+1/4)/60*flbeat) % (4/4) < 2/bpm ? Math.random()^2 -1 : 0 }
-}
-  function fl2() {
-    return si(128*Math.PI*(t))*floor()
-    function floor () { return (t/60*flbeat) % (4/4) < 2/bpm ? Math.random()^2 -1 : 0 }
-}
-  function sn () {
-   var s1=t/60*snbeat-0.5; s2=t/60*snbeat-1.25; s3=t/60*snbeat-2; s4=t/60*snbeat-2.75;
-      s5=t/60*snbeat-3.5;
-    return saw(16)*cos(8)*sna()
-    function sna () {
-      return (si(2*Math.PI*soundVector*10*t)*(drum(s1)+drum(s2)+drum(s3)+drum(s4)+drum(s5)))
-      function drum (x) { return (x) % (16/ 4) < 3/bpm ? Math.random() -1 : 0 }
-    }
-    function cos (x) { return Math.cos(2* Math.PI * (t/60*snbeat) * x) }
-    function saw (x) { return ((t/60*snbeat)%(1/x))*x-1 }
-}
-
-  function rd () {
-    return saw(16)*cos(8)*sna()
-    function sna () {
-      return (si(2*Math.PI*1226*t)*drum())
-      function drum () { return (t/60*rdbeat) % (1/4) < 4/bpm ? Math.random() -1 : 0 }
-    }
-    function cos (x) { return Math.cos(2* Math.PI * (t/60*rdbeat) * x) }
-    function saw (x) { return ((t/60*rdbeat)%(1/x))*x-1 }
-}
-
-  function hh() {
-    return 0.5*cos(4)*hihat()
-    function hihat() { return (((t-0.5)/60*hhbeat)) % (4/4) < 4/bpm ? Math.random()*2 -1 : 0}
-    function cos (x) { return Math.cos(2* Math.PI * ((t-0.5)/60*hhbeat) * x) }
-}
-
-  function sin (x) { return Math.sin(2 * Math.PI * t * x) }
-  function si (x) { return Math.sin(x)}
-}
-
 document.body.addEventListener('keydown', function (e) {
-  lastPress = Date.now()
-  channel.play()
-  soundVector = 100 - e.keyCode || 1
+  play()
 
   var key = vkey[e.keyCode]
 
@@ -169,10 +111,6 @@ document.body.addEventListener('keydown', function (e) {
     Matter.Body.applyForce(letter, letter.position, vector)
     Matter.World.add(engine.world, [ letter ])
   }
-
-  setTimeout(function () {
-    if (Date.now() - lastPress > 100) channel.stop()
-  }, 100)
 }, false)
 
 function getImagePath (key) {
@@ -180,4 +118,13 @@ function getImagePath (key) {
   if (key === '/') key = 'slash'
   if (key === '\\') key = 'backslash'
   return './img/' + key + '.png'
+}
+
+function play () {
+  var audio = document.createElement('audio')
+  audio.src = '/type.mp3'
+  audio.addEventListener('ended', function (e) {
+    audio.src = ''
+  })
+  audio.play()
 }
