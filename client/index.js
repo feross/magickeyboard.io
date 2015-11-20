@@ -121,7 +121,7 @@ function addLetter (key, x, y) {
 
   var vector = {
     x: (Math.floor((Date.now() / 200) % 10) / 200) - 0.025,
-    y: -0.23
+    y: -1 * (HEIGHT / 3200)
   }
 
   Matter.Body.applyForce(body, body.position, vector)
