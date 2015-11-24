@@ -146,7 +146,7 @@ function getImagePath (key) {
 
 var $audio = document.querySelector('audio')
 function playSound () {
-  if ($audio.currentTime) $audio.currentTime = 0
+  $audio.currentTime = 0
   $audio.play()
 }
 
