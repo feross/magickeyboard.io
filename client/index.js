@@ -180,3 +180,7 @@ function addTouchLetter (e) {
 document.body.addEventListener('touchend', function (e) {
   touchActive = false
 })
+
+document.body.addEventListener('touchmove', function (e) {
+  e.preventDefault()
+})
