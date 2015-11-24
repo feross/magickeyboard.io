@@ -99,7 +99,7 @@ document.body.addEventListener('keydown', function (e) {
   if (key in KEYS_X) {
     addLetter(key, KEYS_X[key], HEIGHT - 30)
   }
-}, false)
+})
 
 function addLetter (key, x, y) {
   playSound()
