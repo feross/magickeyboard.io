@@ -146,6 +146,7 @@ function getImagePath (key) {
 
 var $audio = document.createElement('audio')
 $audio.src = '/type.mp3'
+document.body.appendChild($audio)
 
 function playSound () {
   if ($audio.currentTime) $audio.currentTime = 0
@@ -182,3 +183,9 @@ function addTouchLetter (e) {
 document.body.addEventListener('touchend', function (e) {
   touchActive = false
 })
+
+document.body.addEventListener('click', onFirstClick)
+function onFirstClick () {
+  playSound()
+  document.body.removeEventListener('click', onFirstClick)
+}
