@@ -4,6 +4,7 @@ html, body, .content {
   width: 100%;
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
 }
 
 .help {
