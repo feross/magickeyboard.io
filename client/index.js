@@ -150,7 +150,7 @@ var touchActive = false
 document.body.addEventListener('touchstart', function (e) {
   touchActive = true
   addTouchLetter(e)
-  var interval = window.setInterval(function () {
+  var interval = setInterval(function () {
     if (touchActive) addTouchLetter(e)
     else clearInterval(interval)
   }, 100)
@@ -165,6 +165,5 @@ function addTouchLetter (e) {
 }
 
 document.body.addEventListener('touchend', function (e) {
-  console.log('')
   touchActive = false
 })
