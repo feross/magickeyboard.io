@@ -146,7 +146,6 @@ function getImagePath (key) {
 
 var $audio = document.createElement('audio')
 $audio.src = '/type.mp3'
-$audio.autoplay = true
 document.body.appendChild($audio)
 
 function playSound () {
