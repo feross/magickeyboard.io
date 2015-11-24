@@ -3,8 +3,6 @@ html, body, .content {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  -webkit-overflow-scrolling: touch;
-  overflow-scrolling: touch;
 }
 
 .help {

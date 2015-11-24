@@ -181,6 +181,7 @@ document.body.addEventListener('touchend', function (e) {
   touchActive = false
 })
 
+// Disable iOS rubber banding on scroll
 document.body.addEventListener('touchmove', function (e) {
   e.preventDefault()
 })
