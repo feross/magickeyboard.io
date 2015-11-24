@@ -141,13 +141,10 @@ function getImagePath (key) {
   if (key === '.') key = 'dot'
   if (key === '/') key = 'slash'
   if (key === '\\') key = 'backslash'
-  return './img/' + key + '.png'
+  return '/img/' + key + '.png'
 }
 
-var $audio = document.createElement('audio')
-$audio.src = '/type.mp3'
-document.body.appendChild($audio)
-
+var $audio = document.querySelector('audio')
 function playSound () {
   if ($audio.currentTime) $audio.currentTime = 0
   $audio.play()
@@ -183,9 +180,3 @@ function addTouchLetter (e) {
 document.body.addEventListener('touchend', function (e) {
   touchActive = false
 })
-
-document.body.addEventListener('click', onFirstClick)
-function onFirstClick () {
-  playSound()
-  document.body.removeEventListener('click', onFirstClick)
-}
