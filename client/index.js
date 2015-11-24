@@ -58,6 +58,15 @@ engine.enableSleeping = true
 //   engine.render.options.showAngleIndicator = true
 // }
 
+// platform to catch letters that fall offscreen
+var platform = Matter.Bodies.rectangle(WIDTH / 2, HEIGHT + 400, WIDTH * 4, OFFSET, {
+  isStatic: true,
+  friction: 1, // letters should stop sliding with sleeping=true
+  render: {
+    visible: false
+  }
+})
+
 // Add static walls surrounding the world
 Matter.World.add(engine.world, [
   // bottom (left)
@@ -78,14 +87,7 @@ Matter.World.add(engine.world, [
       visible: false
     }
   }),
-  // platform to catch letters that fall offscreen
-  Matter.Bodies.rectangle(WIDTH / 2, HEIGHT + 100, WIDTH * 4, OFFSET, {
-    isStatic: true,
-    friction: 1, // letters should stop sliding with sleeping=true
-    render: {
-      visible: false
-    }
-  })
+  platform
 ])
 
 // run the engine
@@ -120,6 +122,19 @@ function addLetter (key, x, y) {
 
   Matter.Body.applyForce(body, body.position, vector)
   Matter.World.add(engine.world, [ body ])
+}
+
+Matter.Events.on(engine, 'collisionStart', onCollision)
+
+function onCollision (e) {
+  e.pairs.forEach(function (pair) {
+    var bodyA = pair.bodyA
+    var bodyB = pair.bodyB
+    var AisPlatform = bodyA === platform
+    var BisPlatform = bodyB === platform
+    if (AisPlatform) Matter.World.remove(engine.world, [ bodyB ])
+    if (BisPlatform) Matter.World.remove(engine.world, [ bodyA ])
+  })
 }
 
 function getImagePath (key) {
