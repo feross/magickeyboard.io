@@ -100,7 +100,7 @@ document.body.addEventListener('keydown', function (e) {
 }, false)
 
 function addLetter (key, x, y) {
-  playTypeSound()
+  playSound()
   hideHelp()
 
   var body = Matter.Bodies.circle(x, y, 30, {
@@ -129,12 +129,11 @@ function getImagePath (key) {
   return './img/' + key + '.png'
 }
 
-function playTypeSound () {
-  var $audio = document.createElement('audio')
-  $audio.src = '/type.mp3'
-  $audio.addEventListener('ended', function (e) {
-    $audio.src = ''
-  })
+var $audio = document.createElement('audio')
+$audio.src = '/type.mp3'
+
+function playSound () {
+  if ($audio.currentTime) $audio.currentTime = 0
   $audio.play()
 }
 
