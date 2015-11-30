@@ -2,17 +2,44 @@ html, body, .content {
   margin: 0;
   height: 100%;
   width: 100%;
+  font-family: monospace;
   overflow: hidden;
+}
+
+.credit, .github {
+  position: fixed;
+  z-index: 1000;
+  color: #555;
+}
+
+.credit a, .github a {
+  color: #555;
+  text-decoration: none;
+}
+
+.credit a:hover, .github a:hover {
+  color: #FFF;
+  text-shadow: 0 0 8px #6BFF38;
+  transition: all 0.2s ease-out;
+}
+
+.credit {
+  top: 10px;
+  left: 10px;
+}
+
+.github {
+  top: 10px;
+  right: 10px;
 }
 
 .help {
   position: fixed;
-  color: #6BFF38;
   z-index: 1000;
+  color: #6BFF38;
   text-align: center;
   bottom: 60px;
   width: 100%;
-  font-family: monospace;
   font-size: 30px;
 }
 
