@@ -1,4 +1,4 @@
-var Matter = require('./matter.min.js')
+var Matter = require('matter-js/src/module/main')
 var preload = require('preload-img')
 var vkey = require('vkey')
 
