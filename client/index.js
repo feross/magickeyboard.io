@@ -9,7 +9,13 @@ var KEYS = [
   ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', null],
   [null, 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\'],
   [null, 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\'', null],
-  [null, null, 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', null, null]
+  [null, null, 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', null, null],
+  //Numpad keys
+  [null, 'num-/', 'num-*', 'num--'],
+  ['num-7', 'num-8', 'num-9', 'num-+'],
+  ['num-4', 'num-5', 'num-6', 'num-.'],
+  ['num-1', 'num-2', 'num-3'],
+  ['num-0']
 ]
 
 var WIDTH, HEIGHT, KEYS_X
@@ -96,6 +102,13 @@ Matter.Engine.run(engine)
 document.body.addEventListener('keydown', function (e) {
   var key = vkey[e.keyCode]
 
+  //checks if the key begins with < and remove to set the image, because we can't save img with <> on the name.
+  if(key != null){
+    if(key[0] == '<'){
+      key = key.replace(/<|>/gi, "");
+    }
+  }
+
   if (key in KEYS_X) {
     addLetter(key, KEYS_X[key], HEIGHT - 30)
   }
@@ -141,6 +154,24 @@ function getImagePath (key) {
   if (key === '.') key = 'dot'
   if (key === '/') key = 'slash'
   if (key === '\\') key = 'backslash'
+
+  //Numpad -- make this for no repeat images
+  if (key === 'num-/') key = 'slash'
+  if (key === 'num-*') key = 'star'
+  if (key === 'num-.') key = 'dot'
+  if (key === 'num-+') key = 'plus'
+  if (key === 'num--') key = '-'
+  if (key === 'num-0') key = '0'
+  if (key === 'num-1') key = '1'
+  if (key === 'num-2') key = '2'
+  if (key === 'num-3') key = '3'
+  if (key === 'num-4') key = '4'
+  if (key === 'num-5') key = '5'
+  if (key === 'num-6') key = '6'
+  if (key === 'num-7') key = '7'
+  if (key === 'num-8') key = '8'
+  if (key === 'num-9') key = '9'
+
   return '/img/' + key + '.png'
 }
 
