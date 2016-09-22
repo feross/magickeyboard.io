@@ -151,26 +151,18 @@ function onCollision (e) {
 }
 
 function getImagePath (key) {
+  //Numpad -- make this for no repeat images
+  if (key.indexOf('num-') === 0) {
+    key = key.substring(4)
+  }
+  if (key === '*') key = 'star'
+  if (key === '+') key = 'plus'
+
+
+  //Normal keys
   if (key === '.') key = 'dot'
   if (key === '/') key = 'slash'
   if (key === '\\') key = 'backslash'
-
-  //Numpad -- make this for no repeat images
-  if (key === 'num-/') key = 'slash'
-  if (key === 'num-*') key = 'star'
-  if (key === 'num-.') key = 'dot'
-  if (key === 'num-+') key = 'plus'
-  if (key === 'num--') key = '-'
-  if (key === 'num-0') key = '0'
-  if (key === 'num-1') key = '1'
-  if (key === 'num-2') key = '2'
-  if (key === 'num-3') key = '3'
-  if (key === 'num-4') key = '4'
-  if (key === 'num-5') key = '5'
-  if (key === 'num-6') key = '6'
-  if (key === 'num-7') key = '7'
-  if (key === 'num-8') key = '8'
-  if (key === 'num-9') key = '9'
 
   return '/img/' + key + '.png'
 }
