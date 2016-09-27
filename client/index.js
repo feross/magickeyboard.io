@@ -6,16 +6,18 @@ var RESTITUTION = 0.9
 var OFFSET = 1
 
 var KEYS = [
+  // Normal keys
   ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', null],
   [null, 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\'],
   [null, 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\'', null],
   [null, null, 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', null, null],
-  //Numpad keys
-  [null, 'num-/', 'num-*', 'num--'],
-  ['num-7', 'num-8', 'num-9', 'num-+'],
-  ['num-4', 'num-5', 'num-6', 'num-.'],
-  ['num-1', 'num-2', 'num-3'],
-  ['num-0']
+
+  // Numpad keys
+  [null, null, null, null, null, null, null, null, null, null, null, 'num-/', 'num-*', 'num--'],
+  [null, null, null, null, null, null, null, null, null, null, 'num-7', 'num-8', 'num-9', 'num-+'],
+  [null, null, null, null, null, null, null, null, null, null, 'num-4', 'num-5', 'num-6', null],
+  [null, null, null, null, null, null, null, null, null, null, 'num-1', 'num-2', 'num-3', null],
+  [null, null, null, null, null, null, null, null, null, null, null, 'num-0', null, 'num-.', null]
 ]
 
 var WIDTH, HEIGHT, KEYS_X
@@ -101,13 +103,10 @@ Matter.Engine.run(engine)
 
 document.body.addEventListener('keydown', function (e) {
   var key = vkey[e.keyCode]
+  if (key == null) return
 
-  //checks if the key begins with < and remove to set the image, because we can't save img with <> on the name.
-  if(key != null){
-    if(key[0] == '<'){
-      key = key.replace(/<|>/gi, "");
-    }
-  }
+  // Remove '<' and '>' from numpad keys. Example: '<num-1>'  ->  'num-1'
+  key = key.replace('<', '').replace('>', '')
 
   if (key in KEYS_X) {
     addLetter(key, KEYS_X[key], HEIGHT - 30)
@@ -151,15 +150,13 @@ function onCollision (e) {
 }
 
 function getImagePath (key) {
-  //Numpad -- make this for no repeat images
+  // Numpad -- make this for no repeat images
   if (key.indexOf('num-') === 0) {
     key = key.substring(4)
   }
+
   if (key === '*') key = 'star'
   if (key === '+') key = 'plus'
-
-
-  //Normal keys
   if (key === '.') key = 'dot'
   if (key === '/') key = 'slash'
   if (key === '\\') key = 'backslash'
