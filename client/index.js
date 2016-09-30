@@ -21,6 +21,7 @@ var KEYS = [
 ]
 
 var WIDTH, HEIGHT, KEYS_X
+var boundaries, engine, platform
 
 function onResize () {
   WIDTH = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
@@ -40,63 +41,79 @@ function onResize () {
     $canvas.width = WIDTH
     $canvas.height = HEIGHT
   }
+
+  if (!engine) {
+    engine = createEngine()
+  }
+
+  // Remove old boundaries
+  if (boundaries) {
+    Matter.World.remove(engine.world, boundaries)
+  }
+
+  // Add static walls surrounding the world
+  boundaries = generateBoundaries()
+  platform = boundaries[2]
+  Matter.World.add(engine.world, boundaries)
 }
 
 onResize()
 window.addEventListener('resize', onResize)
 
-var engine = Matter.Engine.create(document.querySelector('.content'), {
-  render: {
-    options: {
-      width: WIDTH,
-      height: HEIGHT,
-      background: '#222'
-    }
-  }
-})
-
-// Show textures
-engine.render.options.wireframes = false
-
-engine.enableSleeping = true
-
-// if (debug.enabled) {
-//   engine.render.options.showCollisions = true
-//   engine.render.options.showVelocity = true
-//   engine.render.options.showAngleIndicator = true
-// }
-
-// platform to catch letters that fall offscreen
-var platform = Matter.Bodies.rectangle(WIDTH / 2, HEIGHT + 400, WIDTH * 4, OFFSET, {
-  isStatic: true,
-  friction: 1, // letters should stop sliding with sleeping=true
-  render: {
-    visible: false
-  }
-})
-
-// Add static walls surrounding the world
-Matter.World.add(engine.world, [
-  // bottom (left)
-  Matter.Bodies.rectangle(WIDTH / 4, HEIGHT + 30, WIDTH / 2, OFFSET, {
-    angle: -0.1,
-    isStatic: true,
-    friction: 0.001,
+function createEngine () {
+  var engine = Matter.Engine.create(document.querySelector('.content'), {
     render: {
-      visible: false
+      options: {
+        width: WIDTH,
+        height: HEIGHT,
+        background: '#222'
+      }
     }
-  }),
-  // bottom (right)
-  Matter.Bodies.rectangle((WIDTH / 4) * 3, HEIGHT + 30, WIDTH / 2, OFFSET, {
-    angle: 0.1,
-    isStatic: true,
-    friction: 0.001,
-    render: {
-      visible: false
-    }
-  }),
-  platform
-])
+  })
+
+  // Show textures
+  engine.render.options.wireframes = false
+
+  engine.enableSleeping = true
+
+  // if (debug.enabled) {
+  //   engine.render.options.showCollisions = true
+  //   engine.render.options.showVelocity = true
+  //   engine.render.options.showAngleIndicator = true
+  // }
+  return engine
+}
+
+function generateBoundaries () {
+  return [
+    // bottom (left)
+    Matter.Bodies.rectangle(WIDTH / 4, HEIGHT + 30, WIDTH / 2, OFFSET, {
+      angle: -0.1,
+      isStatic: true,
+      friction: 0.001,
+      render: {
+        visible: false
+      }
+    }),
+    // bottom (right)
+    Matter.Bodies.rectangle((WIDTH / 4) * 3, HEIGHT + 30, WIDTH / 2, OFFSET, {
+      angle: 0.1,
+      isStatic: true,
+      friction: 0.001,
+      render: {
+        visible: false
+      }
+    }),
+    // platform to catch letters that fall offscreen
+    Matter.Bodies.rectangle(WIDTH / 2, HEIGHT + 400, WIDTH * 4, OFFSET, {
+      isStatic: true,
+      friction: 1, // letters should stop sliding with sleeping=true
+      render: {
+        visible: false
+      }
+    })
+  ]
+}
 
 // run the engine
 Matter.Engine.run(engine)
