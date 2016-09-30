@@ -1,5 +1,6 @@
 var Matter = require('matter-js/src/module/main')
 var preload = require('preload-img')
+var randomHex = require('./random-hex')
 var vkey = require('vkey')
 
 var RESTITUTION = 0.9
@@ -23,6 +24,7 @@ var KEYS = [
 var WIDTH, HEIGHT, KEYS_X
 var boundaries, engine, platform
 var lastKeys = ''
+var hexMode = false
 var rainMode = false
 var semiMode = false
 var spinMode = false
@@ -143,15 +145,30 @@ function addLetter (key, x, y) {
 
   hideHelp()
 
-  var body = Matter.Bodies.circle(x, y, 30, {
-    restitution: RESTITUTION,
-    friction: 0.001,
-    render: {
-      sprite: {
-        texture: semiMode ? '/img/;.png' : getImagePath(key)
+  var body
+
+  if (hexMode) {
+    body = Matter.Bodies.polygon(x, y, 6, 105, {
+      restitution: RESTITUTION,
+      friction: 0.001,
+      mass: 3.5,
+      render: {
+        sprite: {
+          texture: randomHex()
+        }
       }
-    }
-  })
+    })
+  } else {
+    body = Matter.Bodies.circle(x, y, 30, {
+      restitution: RESTITUTION,
+      friction: 0.001,
+      render: {
+        sprite: {
+          texture: semiMode ? '/img/;.png' : getImagePath(key)
+        }
+      }
+    })
+  }
 
   var vector = {
     x: (Math.floor((Date.now() / 200) % 10) / 200) - 0.025,
@@ -252,16 +269,20 @@ document.body.addEventListener('touchmove', function (e) {
 function secretWords (key) {
   lastKeys = lastKeys.slice(-5) + key
   var lastFourKeys = lastKeys.slice(-4)
+
   if (lastKeys === 'FEROSS') {
     spinMode = !spinMode
     if (spinMode) playSound('spin')
-  }
-  if (lastFourKeys === 'RAIN') {
+  } else if (lastKeys === 'HEXBIN') {
+    hexMode = !hexMode
+    semiMode = false
+    if (hexMode) playSound('hexbin')
+  } else if (lastFourKeys === 'RAIN') {
     rainMode = !rainMode
     if (rainMode) playSound('rain')
-  }
-  if (lastFourKeys === 'SEMI' || lastFourKeys === 'FLET') {
+  } else if (lastFourKeys === 'SEMI' || lastFourKeys === 'FLET') {
     semiMode = !semiMode
+    hexMode = false
     ;(semiMode ? playSound : stopSound)('trololo')
   }
 }
