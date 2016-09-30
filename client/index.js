@@ -135,7 +135,7 @@ document.body.addEventListener('keydown', function (e) {
 })
 
 function addLetter (key, x, y) {
-  playSound()
+  playTypeSound()
   hideHelp()
 
   var body = Matter.Bodies.circle(x, y, 30, {
@@ -197,10 +197,24 @@ function getImagePath (key) {
   return '/img/' + key + '.png'
 }
 
-var $audio = document.querySelector('audio')
-function playSound () {
-  $audio.currentTime = 0
-  $audio.play()
+var $typeSound = document.querySelector('audio.type')
+var $typeDripSound = document.querySelector('audio.type-drip')
+function playTypeSound () {
+  var $sound = rainMode ? $typeDripSound : $typeSound
+  $sound.currentTime = 0
+  $sound.play()
+}
+
+var $spinSound = document.querySelector('audio.spin')
+function playSpinSound () {
+  $spinSound.currentTime = 0
+  $spinSound.play()
+}
+
+var $rainSound = document.querySelector('audio.rain')
+function playRainSound () {
+  $rainSound.currentTime = 0
+  $rainSound.play()
 }
 
 var helpHidden = false
@@ -242,7 +256,15 @@ document.body.addEventListener('touchmove', function (e) {
 function secretWords (key) {
   lastKeys = lastKeys.slice(-5) + key
   var lastFourKeys = lastKeys.slice(-4)
-  if (lastKeys === 'FEROSS') spinMode = !spinMode
-  if (lastFourKeys === 'RAIN') rainMode = !rainMode
-  if (lastFourKeys === 'SEMI') semiMode = !semiMode
+  if (lastKeys === 'FEROSS') {
+    spinMode = !spinMode
+    if (spinMode) playSpinSound()
+  }
+  if (lastFourKeys === 'RAIN') {
+    rainMode = !rainMode
+    if (rainMode) playRainSound()
+  }
+  if (lastFourKeys === 'SEMI') {
+    semiMode = !semiMode
+  }
 }
