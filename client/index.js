@@ -264,7 +264,7 @@ function secretWords (key) {
     rainMode = !rainMode
     if (rainMode) playRainSound()
   }
-  if (lastFourKeys === 'SEMI') {
+  if (lastFourKeys === 'SEMI' || lastFourKeys === 'FLET') {
     semiMode = !semiMode
   }
 }
