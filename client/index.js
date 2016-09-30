@@ -24,6 +24,7 @@ var WIDTH, HEIGHT, KEYS_X
 var boundaries, engine, platform
 var lastKeys = ''
 var rainMode = false
+var semiMode = false
 var spinMode = false
 
 function onResize () {
@@ -142,7 +143,7 @@ function addLetter (key, x, y) {
     friction: 0.001,
     render: {
       sprite: {
-        texture: getImagePath(key)
+        texture: semiMode ? '/img/;.png' : getImagePath(key)
       }
     }
   })
@@ -240,6 +241,8 @@ document.body.addEventListener('touchmove', function (e) {
 
 function secretWords (key) {
   lastKeys = lastKeys.slice(-5) + key
+  var lastFourKeys = lastKeys.slice(-4)
   if (lastKeys === 'FEROSS') spinMode = !spinMode
-  if (lastKeys.slice(-4) === 'RAIN') rainMode = !rainMode
+  if (lastFourKeys === 'RAIN') rainMode = !rainMode
+  if (lastFourKeys === 'SEMI') semiMode = !semiMode
 }
