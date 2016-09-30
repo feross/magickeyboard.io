@@ -203,13 +203,13 @@ function getImagePath (key) {
 }
 
 function playSound (name) {
-  var $sound = document.querySelector('audio.' + name)
+  var $sound = document.getElementById(name)
   $sound.currentTime = 0
   $sound.play()
 }
 
 function stopSound (name) {
-  var $sound = document.querySelector('audio.' + name)
+  var $sound = document.getElementById(name)
   $sound.pause()
 }
 
