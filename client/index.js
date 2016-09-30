@@ -22,6 +22,9 @@ var KEYS = [
 
 var WIDTH, HEIGHT, KEYS_X
 var boundaries, engine, platform
+var lastKeys = ''
+var rainMode = false
+var spinMode = false
 
 function onResize () {
   WIDTH = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
@@ -149,8 +152,20 @@ function addLetter (key, x, y) {
     y: -1 * (HEIGHT / 3200)
   }
 
+  if (rainMode) {
+    vector = {x: 0, y: 0}
+    Matter.Body.setPosition(body, {x: body.position.x, y: -30})
+  }
+
   Matter.Body.applyForce(body, body.position, vector)
+
+  if (spinMode) {
+    Matter.Body.setAngularVelocity(body, (Math.random() / 2) * (Math.random() < 0.5 ? -1 : 1))
+  }
+
   Matter.World.add(engine.world, [ body ])
+
+  secretWords(key)
 }
 
 Matter.Events.on(engine, 'collisionStart', onCollision)
@@ -222,3 +237,9 @@ document.body.addEventListener('touchend', function (e) {
 document.body.addEventListener('touchmove', function (e) {
   e.preventDefault()
 })
+
+function secretWords (key) {
+  lastKeys = lastKeys.slice(-5) + key
+  if (lastKeys === 'FEROSS') spinMode = !spinMode
+  if (lastKeys.slice(-4) === 'RAIN') rainMode = !rainMode
+}
