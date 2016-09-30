@@ -135,7 +135,12 @@ document.body.addEventListener('keydown', function (e) {
 })
 
 function addLetter (key, x, y) {
-  playSound()
+  if (rainMode) {
+    playSound('type-drip')
+  } else {
+    playSound('type')
+  }
+
   hideHelp()
 
   var body = Matter.Bodies.circle(x, y, 30, {
@@ -197,10 +202,15 @@ function getImagePath (key) {
   return '/img/' + key + '.png'
 }
 
-var $audio = document.querySelector('audio')
-function playSound () {
-  $audio.currentTime = 0
-  $audio.play()
+function playSound (name) {
+  var $sound = document.querySelector('audio.' + name)
+  $sound.currentTime = 0
+  $sound.play()
+}
+
+function stopSound (name) {
+  var $sound = document.querySelector('audio.' + name)
+  $sound.pause()
 }
 
 var helpHidden = false
@@ -242,7 +252,16 @@ document.body.addEventListener('touchmove', function (e) {
 function secretWords (key) {
   lastKeys = lastKeys.slice(-5) + key
   var lastFourKeys = lastKeys.slice(-4)
-  if (lastKeys === 'FEROSS') spinMode = !spinMode
-  if (lastFourKeys === 'RAIN') rainMode = !rainMode
-  if (lastFourKeys === 'SEMI') semiMode = !semiMode
+  if (lastKeys === 'FEROSS') {
+    spinMode = !spinMode
+    if (spinMode) playSound('spin')
+  }
+  if (lastFourKeys === 'RAIN') {
+    rainMode = !rainMode
+    if (rainMode) playSound('rain')
+  }
+  if (lastFourKeys === 'SEMI' || lastFourKeys === 'FLET') {
+    semiMode = !semiMode
+    ;(semiMode ? playSound : stopSound)('trololo')
+  }
 }
