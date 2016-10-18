@@ -1,6 +1,6 @@
+var hexagons = require('./hexagons.json')
 var Matter = require('matter-js/src/module/main')
 var preload = require('preload-img')
-var randomHex = require('./random-hex')
 var vkey = require('vkey')
 
 var RESTITUTION = 0.9
@@ -285,4 +285,8 @@ function secretWords (key) {
     hexMode = false
     ;(semiMode ? playSound : stopSound)('trololo')
   }
+}
+
+function randomHex () {
+  return hexagons[Math.floor(Math.random() * (hexagons.length))]
 }

@@ -18,6 +18,7 @@
   "devDependencies": {
     "browserify": "^13.0.0",
     "ecstatic": "^2.1.0",
+    "simple-get": "^2.3.0",
     "standard": "*",
     "watchify": "^3.6.1"
   },
@@ -28,8 +29,7 @@
     "url": "git://github.com/feross/magic-keyboard.git"
   },
   "scripts": {
-    "build": "npm run get-hexagons && browserify client > static/bundle.js",
-    "get-hexagons": "node download-hex.js",
+    "build": "node bin/get-hexagons.js && browserify client > static/bundle.js",
     "serve": "ecstatic -p 4000 static",
     "start": "npm run build && npm run serve",
     "test": "standard",
