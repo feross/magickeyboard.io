@@ -28,7 +28,8 @@
     "url": "git://github.com/feross/magic-keyboard.git"
   },
   "scripts": {
-    "build": "browserify client > static/bundle.js",
+    "build": "npm run get-hexagons && browserify client > static/bundle.js",
+    "get-hexagons": "node download-hex.js",
     "serve": "ecstatic -p 4000 static",
     "start": "npm run build && npm run serve",
     "test": "standard",
