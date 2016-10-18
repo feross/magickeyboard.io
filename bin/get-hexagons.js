@@ -9,6 +9,15 @@ get.concat({
   json: true
 }, function (err, res, data) {
   if (err) throw err
-  const urls = data.map(element => element.raster)
+  const urls = data
+    .map(element => element.raster)
+    .filter(element => {
+      // Too big!
+      return ![
+        'http://hexb.in/hexagons/metamask.png',
+        'http://hexb.in/hexagons/nodeschool-osa.png'
+      ].includes(element)
+    })
+
   fs.writeFileSync(FILE_PATH, JSON.stringify(urls))
 })
