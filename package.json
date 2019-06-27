@@ -1,6 +1,5 @@
 {
-  "name": "magic-keyboard",
-  "description": "",
+  "name": "magickeyboard.io",
   "version": "0.0.0",
   "author": {
     "name": "Feross Aboukhadijeh",
@@ -8,7 +7,7 @@
     "url": "http://feross.org/"
   },
   "bugs": {
-    "url": "https://github.com/feross/magic-keyboard/issues"
+    "url": "https://github.com/feross/magickeyboard.io/issues"
   },
   "dependencies": {
     "matter-js": "^0.10.0",
@@ -22,18 +21,19 @@
     "standard": "*",
     "watchify": "^3.6.1"
   },
-  "homepage": "https://github.com/feross/magic-keyboard",
+  "homepage": "https://github.com/feross/magickeyboard.io",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/feross/magic-keyboard.git"
+    "url": "git://github.com/feross/magickeyboard.io.git"
   },
   "scripts": {
     "build": "node bin/get-hexagons.js && browserify client > static/bundle.js",
+    "deploy": "git push && ssh future 'cd /home/feross/www/magickeyboard.io && git pull'",
     "serve": "ecstatic -p 4000 static",
     "start": "npm run build && npm run serve",
     "test": "standard",
-    "watch-js": "watchify client -o static/bundle.js -dv",
-    "watch": "npm run watch-js & npm run serve"
+    "watch": "npm run watch-js & npm run serve",
+    "watch-js": "watchify client -o static/bundle.js -dv"
   }
 }
