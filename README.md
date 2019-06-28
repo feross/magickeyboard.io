@@ -8,7 +8,7 @@ I built this little hack after seeing an [animated GIF on /r/gifs](https://www.r
 
 ### Built with
 
-[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard) [![Greenkeeper badge](https://badges.greenkeeper.io/feross/magickeyboard.io.svg)](https://greenkeeper.io/)
 
 - [browserify](http://browserify.org/)
 - [matter-js](http://brm.io/matter-js/)
