@@ -176,8 +176,8 @@ function addLetter (key, x, y) {
   }
 
   if (rainMode) {
-    vector = {x: 0, y: 0}
-    Matter.Body.setPosition(body, {x: body.position.x, y: -30})
+    vector = { x: 0, y: 0 }
+    Matter.Body.setPosition(body, { x: body.position.x, y: -30 })
   }
 
   Matter.Body.applyForce(body, body.position, vector)
