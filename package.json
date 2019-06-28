@@ -10,7 +10,7 @@
     "url": "https://github.com/feross/magickeyboard.io/issues"
   },
   "dependencies": {
-    "matter-js": "^0.14.2",
+    "matter-js": "^0.10.0",
     "preload-img": "^1.0.0",
     "vkey": "^1.0.0"
   },
