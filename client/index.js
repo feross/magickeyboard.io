@@ -186,7 +186,7 @@ function addLetter (key, x, y) {
     Matter.Body.setAngularVelocity(body, (Math.random() / 2) * (Math.random() < 0.5 ? -1 : 1))
   }
 
-  Matter.World.add(engine.world, [ body ])
+  Matter.World.add(engine.world, [body])
 
   secretWords(key)
 }
@@ -199,8 +199,8 @@ function onCollision (e) {
     var bodyB = pair.bodyB
     var AisPlatform = bodyA === platform
     var BisPlatform = bodyB === platform
-    if (AisPlatform) Matter.World.remove(engine.world, [ bodyB ])
-    if (BisPlatform) Matter.World.remove(engine.world, [ bodyA ])
+    if (AisPlatform) Matter.World.remove(engine.world, [bodyB])
+    if (BisPlatform) Matter.World.remove(engine.world, [bodyA])
   })
 }
 
