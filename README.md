@@ -19,7 +19,7 @@ Pull requests welcome!
 
 ### Inspiration
 
-The [original author](http://philippedubost.com/) contacted me and shared [the story](http://keybright.net/story.html) behind the GIF I saw on reddit. Super cool!
+The original author contacted me and shared [the story](https://cargocollective.com/philippedubost/MAGIC-KEYBOARD-1) behind the GIF I saw on reddit. Super cool!
 
 ### License
 
