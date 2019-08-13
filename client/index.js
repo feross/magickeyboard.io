@@ -129,7 +129,7 @@ document.body.addEventListener('keydown', function (e) {
   if (key == null) return
 
   // Remove '<' and '>' from numpad keys. Example: '<num-1>'  ->  'num-1'
-  key = key.replace('<', '').replace('>', '')
+  key = key.replace(/</g, '').replace(/>/g, '')
 
   if (key in KEYS_X) {
     addLetter(key, KEYS_X[key], HEIGHT - 30)
